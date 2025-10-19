@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namibian Recipe Book</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="https://www.omba.org.na/wp-content/uploads/2021/08/OB0039.jpg" alt="Namibian Recipes Logo"
+                        class="logo">
+                    <h1 class="title">Namibian Recipe Book</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link">Home</a></li>
+                        <li><a href="#recipes" class="nav-link">Recipes</a></li>
+                        <li><a href="#submit" class="nav-link">Submit Recipe</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Discover Authentic Namibian Cuisine</h1>
+                    <p>Explore traditional recipes from the heart of Namibia, featuring local ingredients and cooking
+                        techniques passed down through generations.</p>
+                    <a href="#recipes" class="btn">Explore Recipes</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/09/38/f2/8e.jpg"
+                        alt="Namibian Food">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipe Grid Section -->
+    <section id="recipes" class="recipes-section">
+        <div class="container">
+            <h2 class="section-title">Our Namibian Recipes</h2>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <form class="search-form" id="search-form">
+                    <div class="search-input-container">
+                        <input type="text" class="search-input" id="search-input"
+                            placeholder="Search by ingredient (e.g., mopane worms, mahangu)">
+                        <button type="submit" class="search-icon-btn">
+                            <svg class="recipe-meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+            </div>
+
+            <!-- Recipe Grid -->
+            <div class="recipe-grid" id="recipe-grid">
+                <!-- Recipe cards will be dynamically inserted here -->
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results hidden" id="no-results">
+                <p>No recipes found with that ingredient. Try another search term.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipe Detail Modal -->
+    <div class="modal-overlay hidden" id="recipe-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img id="modal-image" src="" alt="" class="modal-image">
+                <button class="modal-close-btn" id="modal-close-btn">
+                    <svg class="modal-close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2 id="modal-title" class="modal-title"></h2>
+                <p id="modal-description" class="modal-description"></p>
+
+                <div class="modal-meta">
+                    <div class="modal-meta-item">
+                        <svg class="modal-meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span id="modal-prep-time"></span>
+                    </div>
+                    <div class="modal-meta-item">
+                        <svg class="modal-meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                            </path>
+                        </svg>
+                        <span id="modal-servings"></span>
+                    </div>
+                    <div class="modal-meta-item" id="modal-region-container">
+                        <svg class="modal-meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span id="modal-region"></span>
+                    </div>
+                </div>
+
+                <div id="modal-map-container" class="hidden">
+                    <h3 class="section-subtitle">Recipe Origin</h3>
+                    <div class="map-container">
+                        <div id="modal-map" class="map"></div>
+                    </div>
+                </div>
+
+                <div class="modal-grid">
+                    <div>
+                        <h3 class="section-subtitle">Ingredients</h3>
+                        <ul id="modal-ingredients" class="ingredients-list"></ul>
+                    </div>
+                    <div>
+                        <h3 class="section-subtitle">Instructions</h3>
+                        <ol id="modal-instructions" class="instructions-list"></ol>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn" id="modal-close-btn-2">Close Recipe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Submission Form -->
+    <section id="submit" class="submission-section">
+        <div class="container">
+            <h2 class="section-title">Share Your Recipe</h2>
+            <p class="text-center text-gray-700 mb-8">
+                Do you have a traditional Namibian recipe to share? Submit it below!
+            </p>
+
+            <div class="submission-form-container">
+                <div class="success-message hidden" id="success-message">
+                    <p>Thank you for submitting your recipe! Our team will review it soon.</p>
+                </div>
+
+                <form id="submission-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipe-name" class="form-label">Recipe Name</label>
+                        <input type="text" id="recipe-name" name="recipeName" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="region" class="form-label">Region of Namibia</label>
+                        <select id="region" name="region" class="form-select">
+                            <option value="">Select a region</option>
+                            <option value="Erongo">Erongo</option>
+                            <option value="Hardap">Hardap</option>
+                            <option value="Karas">Karas</option>
+                            <option value="Kavango East">Kavango East</option>
+                            <option value="Kavango West">Kavango West</option>
+                            <option value="Khomas">Khomas</option>
+                            <option value="Kunene">Kunene</option>
+                            <option value="Ohangwena">Ohangwena</option>
+                            <option value="Omaheke">Omaheke</option>
+                            <option value="Omusati">Omusati</option>
+                            <option value="Oshana">Oshana</option>
+                            <option value="Oshikoto">Oshikoto</option>
+                            <option value="Otjozondjupa">Otjozondjupa</option>
+                            <option value="Zambezi">Zambezi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ingredients" class="form-label">Ingredients (one per line)</label>
+                        <textarea id="ingredients" name="ingredients" class="form-textarea" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructions" class="form-label">Cooking Instructions</label>
+                        <textarea id="instructions" name="instructions" class="form-textarea" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Recipe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="data/recipes.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
